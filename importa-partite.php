@@ -2,11 +2,11 @@
 /**
  * Plugin Name: Importa partite
  * Plugin URI: http://www.basketgardolo.it
- * Description: This plugin adds some Facebook Open Graph tags to our single posts.
+ * Description: This plugin creates event posts with data fetched from Google Calendar.
  * Version: 1.0.0
  * Author: Cristian Stenico
  * Author URI: http://www.basketgardolo.it
- * License: GPL2
+ * License: MIT
  */
 
 include('CalFileParser.php');
@@ -323,14 +323,14 @@ function importa_partite()
     </div>
     <?php
 }
-
+// Menu entry
 function my_admin_menu_importa_partite()
 {
     add_menu_page('Importa partite', 'Importa partite', 'update_core', 'importa-partite/importa-partite', 'importa_partite');
 }
-
 add_action('admin_menu', 'my_admin_menu_importa_partite');
 
+// Add teams to users
 function register_team_taxonomy()
 {
 	register_taxonomy('squadra', 'user', array(
@@ -364,9 +364,9 @@ function register_team_taxonomy()
             ),
         ));
 }
-
 add_action( 'init', 'register_team_taxonomy', 0 );
 
+// show only the leagues the user can view
 function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_query)
 {
     if (!is_admin())
@@ -391,18 +391,19 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
                         return true;
                     return in_array($league->name, $user_leagues);
                 } else {
-					$term = get_term($league);
-					if (!$term || $term->taxonomy != 'sp_league')
-						return true;
+		    $term = get_term($league);
+		    if (!$term || $term->taxonomy != 'sp_league')
+			return true;
                     return in_array($league, $user_leagues_id);
-				}
+		}
             }
         );
     }
     return $terms;
 }
-
 add_filter('get_terms', 'manage_user_in_new_post_type', 10, 4);
+
+// filter the league depending on user's permissions
 function show_only_current_league( $query ) {
     if( is_admin() && !empty( $_GET['post_type'] )) {
         if ( ($_GET['post_type'] == 'sp_player' && $query->query['post_type'] == 'sp_player' ) ||
@@ -425,7 +426,7 @@ function show_only_current_league( $query ) {
 }
 add_action( 'pre_get_posts', 'show_only_current_league' );
 
-
+// Remove minibasket menu entry if the user can't view it
 function remove_minibasket_page() {
     $user_groups = wp_get_object_terms(get_current_user_id(), 'squadra');
     foreach((array)$user_groups as $user_group) {;
@@ -436,7 +437,7 @@ function remove_minibasket_page() {
 }
 add_action('admin_menu', 'remove_minibasket_page');
 
-//Aggiunge il punteggio al titolo delle partite
+// Add results to the game
 function add_score( $title, $post_id ) {
   $post = get_post($post_id);
   if ($post->post_type == 'sp_event') {
@@ -450,5 +451,4 @@ function add_score( $title, $post_id ) {
   return $title;
 }
 add_filter( 'title_edit_pre', 'add_score', 10, 2 );
-
 ?>
