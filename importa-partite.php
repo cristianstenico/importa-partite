@@ -379,23 +379,21 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
         if (empty($user_groups))
             return $terms;
         $user_leagues = array();
-        $user_leagues_id = array();
         foreach ($user_groups as $user_group) {
             $user_leagues[] = $user_group->name;
-            $user_leagues_id[] = $user_group->term_id;
         }
         $terms = array_filter($terms,
-            function ($league) use ($user_leagues, $user_leagues_id) {
+            function ($league) use ($user_leagues) {
                 if (is_object($league)) {
                     if ($league->taxonomy != 'sp_league')
                         return true;
                     return in_array($league->name, $user_leagues);
                 } else {
-		    $term = get_term($league);
-		    if (!$term || $term->taxonomy != 'sp_league')
-			return true;
-                    return in_array($league, $user_leagues_id);
-		}
+					$term = get_term($league);
+					if (!$term || $term->taxonomy != 'sp_league')
+						return true;
+                    return in_array($term->name , $user_leagues);
+				}
             }
         );
     }
