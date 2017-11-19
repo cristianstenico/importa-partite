@@ -382,6 +382,9 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
         foreach ($user_groups as $user_group) {
             $user_leagues[] = $user_group->name;
         }
+	if (in_array('Tutto' , $user_leagues) {
+	    return $terms;
+	}
         $terms = array_filter($terms,
             function ($league) use ($user_leagues) {
                 if (is_object($league)) {
@@ -389,11 +392,11 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
                         return true;
                     return in_array($league->name, $user_leagues);
                 } else {
-					$term = get_term($league);
-					if (!$term || $term->taxonomy != 'sp_league')
-						return true;
+		    $term = get_term($league);
+		    if (!$term || $term->taxonomy != 'sp_league')
+			return true;
                     return in_array($term->name , $user_leagues);
-				}
+		}
             }
         );
     }
