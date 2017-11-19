@@ -382,7 +382,7 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
         foreach ($user_groups as $user_group) {
             $user_leagues[] = $user_group->name;
         }
-	if (in_array('Tutto' , $user_leagues) {
+	if (in_array('Tutto' , $user_leagues)) {
 	    return $terms;
 	}
         $terms = array_filter($terms,
