@@ -416,6 +416,9 @@ function show_only_current_league( $query ) {
             foreach ((array)$user_groups as $user_group) {
                 $user_leagues[] = $user_group->name;
             }
+	    if (in_array('Tutto', $user_leagues)) {
+	        return;
+	    }
             $query->set('tax_query', array(array(
                 'taxonomy' => 'sp_league',
                 'field' => 'slug',
