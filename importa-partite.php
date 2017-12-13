@@ -33,6 +33,7 @@ function importa_partite()
         <h2>Welcome To My Plugin</h2>
         <?php
         $calendars = array(
+            'https://calendar.google.com/calendar/ical/eksgn66cm4li0el0srbqhi474k%40group.calendar.google.com/public/basic.ics', // Aquilotti
             'https://calendar.google.com/calendar/ical/ld2ruqiqfbmkrcp55knd6q96qc%40group.calendar.google.com/public/basic.ics', // Under 13
             'https://calendar.google.com/calendar/ical/b1nhq8jca84lf9rc3fdlmhrlv0%40group.calendar.google.com/public/basic.ics', // Under 14
             'https://calendar.google.com/calendar/ical/fv40vb09f1cr706eu6ctefg8m0%40group.calendar.google.com/public/basic.ics', // Under 15
@@ -73,7 +74,7 @@ function importa_partite()
                     ),
                     'post_status' => array('publish', 'future'),
                     'tax_query' => array(
-			'relation' => 'AND',
+                        'relation' => 'AND',
                         array(
                             'taxonomy' => 'sp_league',
                             'field' => 'name',
