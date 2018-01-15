@@ -405,12 +405,12 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
 }
 add_filter('get_terms', 'manage_user_in_new_post_type', 10, 4);
 
-
-function add_custom_theme ($directories) {
-    $directiories[] = plugin_dir_path( __FILE__ ) . 'custom-theme/';
-    return $directories;
+function set_homepage_post_types( $query ) {
+    if ( $query->is_home() && $query->is_main_query() ) {
+        $query->set( 'post_type', array('post', 'sp_event', 'minibasket') );
+    }
 }
-add_filter('wptouch_theme_directories', 'add_custom_theme');
+add_action( 'pre_get_posts', 'set_homepage_post_types' );
 
 // filter the league depending on user's permissions
 function show_only_current_league( $query ) {
