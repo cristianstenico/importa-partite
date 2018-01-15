@@ -405,6 +405,13 @@ function manage_user_in_new_post_type($terms, $taxonomy, $query_vars, $term_quer
 }
 add_filter('get_terms', 'manage_user_in_new_post_type', 10, 4);
 
+
+function add_custom_theme ($directories) {
+    $directiories[] = plugin_dir_path( __FILE__ ) . 'custom-theme/';
+    return $directories;
+}
+add_filter('wptouch_theme_directories', 'add_custom_theme');
+
 // filter the league depending on user's permissions
 function show_only_current_league( $query ) {
     if( is_admin() && !empty( $_GET['post_type'] )) {
