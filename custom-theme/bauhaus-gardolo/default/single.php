@@ -8,19 +8,19 @@
 			<div class="<?php wptouch_post_classes(); ?>">
 				<div class="post-page-head-area bauhaus">
 					<span class="post-date-comments">
-						<?php if ( bauhaus_should_show_date() ) { ?>
+						<?php if ( bauhaus_gardolo_should_show_date() ) { ?>
 							<?php wptouch_the_time(); ?>
 						<?php } ?>
-						<?php if ( bauhaus_should_show_comments() ) { ?>
-							<?php if ( bauhaus_should_show_date() && ( comments_open() || wptouch_have_comments() ) ) echo '&bull;'; ?>
+						<?php if ( bauhaus_gardolo_should_show_comments() ) { ?>
+							<?php if ( bauhaus_gardolo_should_show_date() && ( comments_open() || wptouch_have_comments() ) ) echo '&bull;'; ?>
 							<?php if ( comments_open() || wptouch_have_comments() ) comments_number( __( 'no comments', 'wptouch-pro' ), __( '1 comment', 'wptouch-pro' ), __( '% comments', 'wptouch-pro' ) ); ?>
 						<?php } ?>
 					</span>
 					<h1 class="post-title heading-font"><?php wptouch_the_title(); ?></h1>
-					<?php if ( bauhaus_should_show_author() ) { ?>
+					<?php if ( bauhaus_gardolo_should_show_author() ) { ?>
 						<span class="post-author"><?php the_author(); ?></span>
 					<?php } ?>
-					<?php if ( bauhaus_should_show_thumbnail() && wptouch_has_post_thumbnail() ) { ?>
+					<?php if ( bauhaus_gardolo_should_show_thumbnail() && wptouch_has_post_thumbnail() ) { ?>
 						<div class="post-page-thumbnail">
 							<?php the_post_thumbnail('large', array( 'class' => 'post-thumbnail wp-post-image' ) ); ?>
 						</div>
@@ -29,7 +29,7 @@
 
 				<div class="post-page-content">
 					<?php wptouch_the_content(); ?>
-					<?php if ( bauhaus_should_show_taxonomy() ) { ?>
+					<?php if ( bauhaus_gardolo_should_show_taxonomy() ) { ?>
 						<?php if ( wptouch_has_categories() || wptouch_has_tags() ) { ?>
 							<div class="cat-tags">
 								<?php if ( wptouch_has_categories() ) { ?>

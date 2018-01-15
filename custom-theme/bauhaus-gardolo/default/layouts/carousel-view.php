@@ -1,8 +1,8 @@
-<?php $settings = bauhaus_get_settings(); ?>
+<?php $settings = bauhaus_gardolo_get_settings(); ?>
 
 <div class="flickity-view">
 
-	<?php if ( !bauhaus_is_latest_only() ) { ?>
+	<?php if ( !bauhaus_gardolo_is_latest_only() ) { ?>
 		<h2><?php _e( 'Latest', 'wptouch-pro' ); ?></h2>
 	<?php } ?>
 	
@@ -16,12 +16,12 @@
 		<?php } ?>
 	</div>
 
-	<?php if ( bauhaus_should_show_carousel_featured() ) { ?>
+	<?php if ( bauhaus_gardolo_should_show_carousel_featured() ) { ?>
 		<h2><?php _e( 'Featured', 'wptouch-pro' ); ?></h2>
-			<?php bauhaus_featured_slider(); ?>
+			<?php bauhaus_gardolo_featured_slider(); ?>
 	<?php } ?>
 
-	<?php if ( bauhaus_if_popular_enabled() ) {  $max_pop_posts = $settings->bauhaus_popular_max_number_of_posts; ?>
+	<?php if ( bauhaus_gardolo_if_popular_enabled() ) {  $max_pop_posts = $settings->bauhaus_gardolo_popular_max_number_of_posts; ?>
 		<h2><?php _e( 'Popular', 'wptouch-pro' ); ?></h2>
 
 		<div class="carousel popular-carousel">

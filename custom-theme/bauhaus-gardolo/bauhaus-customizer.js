@@ -3,7 +3,7 @@ function doBauhausCustomizerReady() {
 	// Post Listings Select
 	var postListingSelect = jQuery( 'select', '[id$=_post_listing_view]' );
 	// Popular Posts Checkbox
-	popularSetting = jQuery( 'input', '[id$=bauhaus_popular_enabled]' );
+	popularSetting = jQuery( 'input', '[id$=bauhaus_gardolo_popular_enabled]' );
 
 	checkPostListingShowHide();
 
@@ -12,17 +12,17 @@ function doBauhausCustomizerReady() {
 		postListingSelect.on( 'change wptouch.customizerReady', function(){
 			if ( jQuery( this ).val() != 'default' ) {
 				// Carousel view
-				jQuery( '[id$=bauhaus_featured_enabled]' ).hide();
+				jQuery( '[id$=bauhaus_gardolo_featured_enabled]' ).hide();
 				jQuery( '[id$=post_listing_dots]' ).hide();
 				jQuery( '[id$=post_listing_autoplay]' ).hide();
-				jQuery( '[id$=bauhaus_featured_carousel_enabled]' ).show();
-				jQuery( '[id$=bauhaus_popular_enabled]' ).show();	
+				jQuery( '[id$=bauhaus_gardolo_featured_carousel_enabled]' ).show();
+				jQuery( '[id$=bauhaus_gardolo_popular_enabled]' ).show();	
 			} else {
-				jQuery( '[id$=bauhaus_featured_enabled]' ).show();
+				jQuery( '[id$=bauhaus_gardolo_featured_enabled]' ).show();
 				jQuery( '[id$=post_listing_dots]' ).show();
 				jQuery( '[id$=post_listing_autoplay]' ).show();
-				jQuery( '[id$=bauhaus_featured_carousel_enabled]' ).hide();
-				jQuery( '[id$=bauhaus_popular_enabled]' ).hide();
+				jQuery( '[id$=bauhaus_gardolo_featured_carousel_enabled]' ).hide();
+				jQuery( '[id$=bauhaus_gardolo_popular_enabled]' ).hide();
 			}
 			checkPopularShowHide();
 		});
