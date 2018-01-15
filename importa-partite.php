@@ -456,4 +456,72 @@ function add_score( $title, $post_id ) {
   return $title;
 }
 add_filter( 'title_edit_pre', 'add_score', 10, 2 );
+
+
+function staff_list_shortcodes($atts) {
+    $league = $atts['league'];
+    $season = $atts['season'];
+    $team = $atts['team'];
+    $staff_list = array();
+    $roles = array('Allenatore', 'Vice allenatore', 'Scorer');
+    foreach($roles as $role) {
+        $args = array(
+            'post_type' => 'sp_staff',
+            'tax_query' => array(
+                'relation' => 'AND',
+                array(
+                    'taxonomy' => 'sp_season',
+                    'field' => 'term_id',
+                    'terms' => $season
+                ),
+                array(
+                    'taxonomy' => 'sp_league',
+                    'field' => 'term_id',
+                    'terms' => $league
+                ),
+                array (
+                    'taxonomy' => 'sp_role',
+                    'field' => 'name',
+                    'terms' => $role
+                )
+            ),
+            'meta_query' => array(
+                array(
+                    'key' => 'sp_current_team',
+                    'value' => $team
+                )
+            )
+        );
+        $results = get_posts($args);
+        if ($results) {
+            foreach($results as $res) {
+                $staff_list[] = $res;
+            }
+        }
+    }
+    if (count($staff_list) == 0) {
+        return '';
+    }
+    $out =  '<table class="sp-player-list sp-data-table sp-sortable-table sp-scrollable-table sp-paginated-table dataTable no-footer">';
+    $out .= '<thead><tr role="row"><th>Staff</th><th>Ruolo</th></tr></thead>';
+    $out .= '<tbody>';
+    foreach($staff_list as $staff) {
+        $coach = new SP_Staff($staff);
+        $role = $coach->role();
+        $image = has_post_thumbnail($staff);
+        $out .= '<tr class="even" role="row">';
+        $out .= '<td class="data-name ' . ($image ? 'has-photo' : '') . '">';
+        if ($image) {
+            $out .= '<span class="player-photo">' . get_the_post_thumbnail($staff) . '</span>';
+        }
+        $out .=  '<a href="' . get_permalink($staff) . '">' . $staff->post_title . '</a></td>';
+        if ($role) {
+            $out .= '<td>' . $role->name . '</td>';
+        }
+        $out .= '</tr>';
+    }
+    $out .= '</tbody></table>';
+    return $out;
+}
+add_shortcode('staff_list', 'staff_list_shortcodes');
 ?>
