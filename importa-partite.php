@@ -84,7 +84,7 @@ function importa_partite()
                 );
                 $presente = get_posts($post_arr);
                 if ($presente) {
-                    printf('<p><b>Evento già presente:</b> %s - %s</p>', $league_name, $title);		   
+                    printf('<p><b>Evento già presente:</b> %s - %s -> %s</p>', $league_name, $title, $event['dtstart']->format('d/m/Y'));		   
                     $event_ID = $presente[0]->ID;
                 }
                 if (!$presente) {
