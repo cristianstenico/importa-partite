@@ -34,6 +34,7 @@ function importa_partite()
         <?php
         $calendars = array(
             'https://calendar.google.com/calendar/ical/eksgn66cm4li0el0srbqhi474k%40group.calendar.google.com/public/basic.ics', // Aquilotti
+            'https://calendar.google.com/calendar/ical/ofmjd4o0f17dfq4upnh17tqoek%40group.calendar.google.com/public/basic.ics', // Esordienti
             'https://calendar.google.com/calendar/ical/ld2ruqiqfbmkrcp55knd6q96qc%40group.calendar.google.com/public/basic.ics', // Under 13
             'https://calendar.google.com/calendar/ical/b1nhq8jca84lf9rc3fdlmhrlv0%40group.calendar.google.com/public/basic.ics', // Under 14
             'https://calendar.google.com/calendar/ical/fv40vb09f1cr706eu6ctefg8m0%40group.calendar.google.com/public/basic.ics', // Under 15
