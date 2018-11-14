@@ -61,7 +61,47 @@ function importa_partite()
 
                 $league_name = $event['description'];
                 $league_name = str_replace('Under 20', 'Promozione', $league_name);
-
+		    
+		// Squadra A
+                $title_a = str_replace('vs', '-', explode(':', $event['summary'])[1]);
+                $title_a = trim(explode('-', $title_a)[0]);
+                $title_a = ucwords(strtolower($title_a));
+                $post_arr = array(
+                    'title' => $title_a,
+                    'post_type' => 'sp_team'
+                );
+                $teams = get_posts($post_arr);
+                if (!$teams) {
+                    $post_arr = array(
+                        'post_title' => $title_a,
+                        'post_type' => 'sp_team',
+                        'post_status' => 'publish'
+                    );
+                    $team_ID_a = wp_insert_post($post_arr);
+                } else {
+                    $team_ID_a = $teams[0]->ID;
+                }
+		    
+		// Squadra B
+		$title_b = str_replace('vs', '-', explode(':', $event['summary'])[1]);
+                $title_b = trim(explode('-', $title_b)[1]);
+                $title_b = ucwords(strtolower($title_b));
+                $post_arr = array(
+                    'title' => $title_b,
+                    'post_type' => 'sp_team'
+                );
+                $teams = get_posts($post_arr);
+                if (!$teams) {
+                    $post_arr = array(
+                        'post_title' => $title_b,
+                        'post_type' => 'sp_team',
+                        'post_status' => 'publish'
+                    );
+                    $team_ID_b = wp_insert_post($post_arr);
+                } else {
+                    $team_ID_b = $teams[0]->ID;
+                }
+		
                 $post_arr = array(
                     'post_type' => 'sp_event',
                     'date_query' => array(
@@ -81,11 +121,17 @@ function importa_partite()
                             'field' => 'name',
                             'terms' => array($league_name)
                         )
+                    ),
+		    'meta_query' => array(
+			array(
+			    'key' => 'sp_team',
+                    	    'value' => array($team_ID_a, $team_ID_b)
+                        )
                     )
                 );
                 $presente = get_posts($post_arr);
                 if ($presente) {
-                    printf('<p><b>Evento già presente:</b> %s - %s</p>', $league_name, $title);		   
+                    printf('<p><b>Evento già presente:</b> %s - %s -> %s</p>', $league_name, $title, $event['dtstart']->format('d/m/Y'));		   
                     $event_ID = $presente[0]->ID;
                 }
                 if (!$presente) {
@@ -148,84 +194,48 @@ function importa_partite()
                 }
                 if (!$presente)
                     wp_set_object_terms($event_ID, $venue, 'sp_venue');
-
-                $nome_squadra = '';
-                // Squadra A
-                $title = str_replace('vs', '-', explode(':', $event['summary'])[1]);
-                $title = trim(explode('-', $title)[0]);
-                $title = ucwords(strtolower($title));
-                $post_arr = array(
-                    'title' => $title,
-                    'post_type' => 'sp_team'
-                );
-                $teams = get_posts($post_arr);
-                if (!$teams) {
-                    $post_arr = array(
-                        'post_title' => $title,
-                        'post_type' => 'sp_team',
-                        'post_status' => 'publish'
-                    );
-                    $team_ID = wp_insert_post($post_arr);
-                } else {
-                    $team_ID = $teams[0]->ID;
-                }
-                if (strpos($title, 'Gardolo') !== false) {
+		    
+		$nome_squadra = '';
+		// Squadra A
+                if (strpos($title_a, 'Gardolo') !== false) {
                     $nome_squadra = $league_name;
-                    if (strpos($title,'Gardolo U20') !== false) {
+                    if (strpos($title_a, 'Gardolo U20') !== false) {
                         $nome_squadra = 'Promozione U20';
-                        $gardolo_u20 = $team_ID;
+                        $gardolo_u20 = $team_ID_a;
                     } else {
-                        $gardolo = $team_ID;
+                        $gardolo = $team_ID_a;
                     }
                 }
-                if (!has_term($venue, 'sp_venue', $team_ID)) {
-                    wp_set_object_terms($team_ID, $venue, 'sp_venue', true);
+                if (!has_term($venue, 'sp_venue', $team_ID_a)) {
+                    wp_set_object_terms($team_ID_a, $venue, 'sp_venue', true);
                 }
-                if (!has_term($season, 'sp_season', $team_ID)) {
-                    wp_add_object_terms($team_ID, $season, 'sp_season');
+                if (!has_term($season, 'sp_season', $team_ID_a)) {
+                    wp_add_object_terms($team_ID_a, $season, 'sp_season');
                 }
-                if (!has_term($league, 'sp_league', $team_ID)) {
-                    wp_add_object_terms($team_ID, $league, 'sp_league');
+                if (!has_term($league, 'sp_league', $team_ID_a)) {
+                    wp_add_object_terms($team_ID_a, $league, 'sp_league');
                 }
                 if (!$presente)
-                    add_post_meta($event_ID, 'sp_team', $team_ID);
+                    add_post_meta($event_ID, 'sp_team', $team_ID_a);
 
                 // Squadra B
-                $title = str_replace('vs', '-', explode(':', $event['summary'])[1]);
-                $title = trim(explode('-', $title)[1]);
-                $title = ucwords(strtolower($title));
-                $post_arr = array(
-                    'title' => $title,
-                    'post_type' => 'sp_team'
-                );
-                $teams = get_posts($post_arr);
-                if (!$teams) {
-                    $post_arr = array(
-                        'post_title' => $title,
-                        'post_type' => 'sp_team',
-                        'post_status' => 'publish'
-                    );
-                    $team_ID = wp_insert_post($post_arr);
-                } else {
-                    $team_ID = $teams[0]->ID;
-                }
-                if (strpos($title, 'Gardolo') !== false) {
+                if (strpos($title_b, 'Gardolo') !== false) {
                     $nome_squadra = $league_name;
-                    if (strpos($title,'Gardolo U20') !== false) {
+                    if (strpos($title_b, 'Gardolo U20') !== false) {
                         $nome_squadra = 'Promozione U20';
-                        $gardolo_u20 = $team_ID;
+                        $gardolo_u20 = $team_ID_b;
                     } else {
-                        $gardolo = $team_ID;
+                        $gardolo = $team_ID_b;
                     }
                 }
-                if (!has_term($season, 'sp_season', $team_ID)) {
-                    wp_add_object_terms($team_ID, $season, 'sp_season');
+                if (!has_term($season, 'sp_season', $team_ID_b)) {
+                    wp_add_object_terms($team_ID_b, $season, 'sp_season');
                 }
-                if (!has_term($league, 'sp_league', $team_ID)) {
-                    wp_add_object_terms($team_ID, $league, 'sp_league');
+                if (!has_term($league, 'sp_league', $team_ID_b)) {
+                    wp_add_object_terms($team_ID_b, $league, 'sp_league');
                 }
                 if (!$presente)
-                    add_post_meta($event_ID, 'sp_team', $team_ID);
+                    add_post_meta($event_ID, 'sp_team', $team_ID_b);
 
                 // Lista giocatori
                 $title = $nome_squadra . ' ' . $season_name;
