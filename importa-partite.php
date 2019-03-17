@@ -315,7 +315,7 @@
             'post_title' => $title,
             'post_type' => 'page',
             'post_status' => 'publish',
-            'post_content' => sprintf('[player_list id="%d" title="" number="-1" columns="pts,g,ppg" orderby="number" order="" show_all_players_link="0" align="none"]<hr /><h3>Partite:</h3>[event_blocks id="%d" title="" team="0" league="0" season="0" venue="0" status="default" date="default" number="1" order="default" show_all_events_link="1" align="none"]', $list_ID, $calendar_ID)
+            'post_content' => sprintf('[player_list id="%d" title="" number="-1" columns="pts,g,ppg" orderby="number" order="" show_all_players_link="0" align="none"]<hr /><h3>Partite:</h3>[event_calendar %d]', $list_ID, $calendar_ID)
           );
           wp_insert_post($post_arr);
         }
