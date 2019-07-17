@@ -531,4 +531,11 @@
     return $out;
   }
   add_shortcode('staff_list', 'staff_list_shortcodes');
+
+  // Set custom capability for our tournament
+  function set_custom_capability($capability) {
+    return 'torneo'
+  }
+  add_filter('ninja_forms_admin_parent_menu_capabilities', 'set_custom_capability', 10, 2);
+  add_filter('ninja_forms_admin_submissions_capabilities', 'set_custom_capability', 10, 2);
   ?>
