@@ -28,6 +28,7 @@
 <div class="wrap">
   <h2>Welcome To My Plugin</h2>
   <?php
+    $skipped_events = 0;
     $calendars = array(
       'https://calendar.google.com/calendar/ical/eksgn66cm4li0el0srbqhi474k%40group.calendar.google.com/public/basic.ics', // Aquilotti
       'https://calendar.google.com/calendar/ical/ofmjd4o0f17dfq4upnh17tqoek%40group.calendar.google.com/public/basic.ics', // Esordienti
@@ -124,7 +125,7 @@
         );
         $presente = get_posts($post_arr);
         if ($presente) {
-          // 
+          $skipped_events++;
           // printf('<p><b>Evento già presente:</b> %s - %s -> %s</p>', $league_name, $title, $event['dtstart']->format('d/m/Y'));		   
           $event_ID = $presente[0]->ID;
         } else {
@@ -321,6 +322,7 @@
         }
       }
     }
+    printf('<p><b>%d Eventi già presenti</b></p>', $skipped_events);
   ?>
 </div>
 <?php
