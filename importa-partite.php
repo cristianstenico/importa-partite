@@ -80,19 +80,19 @@
         $title_b = trim(explode('-', $title_b)[1]);
         $title_b = ucwords(strtolower($title_b));
         $post_arr = array(
-            'title' => $title_b,
-            'post_type' => 'sp_team'
+          'title' => $title_b,
+          'post_type' => 'sp_team'
         );
         $teams = get_posts($post_arr);
         if (!$teams) {
-            $post_arr = array(
-                'post_title' => $title_b,
-                'post_type' => 'sp_team',
-                'post_status' => 'publish'
-            );
-            $team_ID_b = wp_insert_post($post_arr);
+          $post_arr = array(
+            'post_title' => $title_b,
+            'post_type' => 'sp_team',
+            'post_status' => 'publish'
+          );
+          $team_ID_b = wp_insert_post($post_arr);
         } else {
-            $team_ID_b = $teams[0]->ID;
+          $team_ID_b = $teams[0]->ID;
         }
 
         $post_arr = array(
@@ -124,10 +124,10 @@
         );
         $presente = get_posts($post_arr);
         if ($presente) {
-          printf('<p><b>Evento già presente:</b> %s - %s -> %s</p>', $league_name, $title, $event['dtstart']->format('d/m/Y'));		   
+          // 
+          // printf('<p><b>Evento già presente:</b> %s - %s -> %s</p>', $league_name, $title, $event['dtstart']->format('d/m/Y'));		   
           $event_ID = $presente[0]->ID;
-        }
-        if (!$presente) {
+        } else {
           $post_arr = array(
             'post_title' => $title,
             'post_type' => 'sp_event',
@@ -137,7 +137,7 @@
           $event_ID = wp_insert_post($post_arr);
           // Partita di campionato (non amichevole)
           add_post_meta($event_ID, 'sp_format', 'league', true);
-          printf('<p><b>Evento aggiunto:</b> %s - %s</p>', $league_name, $title);
+          printf('<p><b>Evento aggiunto:</b> %s - %s -> %s</p>', $league_name, $title, $event['dtstart']->format('d/m/Y'));
         }
         
         // Categoria di campionato
