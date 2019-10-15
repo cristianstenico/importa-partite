@@ -192,10 +192,10 @@
         // Squadra A
         if (strpos($title_a, 'Gardolo') !== false) {
           $nome_squadra = $league_name;
-          if (strpos($title_a, 'A' !== false) {
+          if (strpos($title_a, 'A' !== false)) {
             $nome_squadra .= ' A';
           }
-          if (strpos($title_a, 'B' !== false) {
+          if (strpos($title_a, 'B' !== false)) {
             $nome_squadra .= ' B';
           }
           if (strpos($title_a, 'Gardolo U20') !== false) {
@@ -219,10 +219,10 @@
         // Squadra B
         if (strpos($title_b, 'Gardolo') !== false) {
           $nome_squadra = $league_name;
-          if (strpos($title_b, 'A' !== false) {
+          if (strpos($title_b, 'A' !== false)) {
             $nome_squadra .= ' A';
           }
-          if (strpos($title_b, 'B' !== false) {
+          if (strpos($title_b, 'B' !== false)) {
             $nome_squadra .= ' B';
           }
           if (strpos($title_b, 'Gardolo U20') !== false) {
